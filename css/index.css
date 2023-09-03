@@ -1,0 +1,149 @@
+html,body {
+    margin:0;
+    padding:0;
+}
+pre, code, kbd, samp {
+    padding: 10px;
+    font-family: "font-family you want to use";
+}
+#app {
+    min-height:100vh;
+}
+.nes-container {
+    padding: 0 0;
+    margin-bottom: 20px;
+}
+.is-left .nes-btn {
+    float: right;
+}
+.is-left div {
+    margin-bottom: 15px;
+}
+.is-left div:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.is-left {
+    text-align: left;
+}
+.is-left .nes-block {
+    display: inline-block;
+    margin: 0;
+}
+.is-beetwin {
+    display: flex;
+    flex-flow: nowrap row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 30px 0;
+}
+@media (max-width: 640px) {
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+    #app {
+        width: 640px;
+        margin: 0 auto;
+    }
+    .nes-container {
+        padding: 1.5rem 2rem;
+    }
+    h1 {
+        font-size: 1em;
+    }
+    p,
+    .is-left,
+    .nes-btn {
+        font-size: .7em;
+    }
+    .title {
+        padding: 25px 10px 0 !important;
+    }
+    .is-panel {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        width: 640px;
+        background: white;
+        z-index: 10;
+        margin: 0 -320px;
+        padding: 20px;
+        border: 4px solid black;
+    }
+    .is-body {
+        margin: 0 0 90px;
+    }
+}
+@media (min-width:320px) {
+    #app {
+        width: 100%;
+        padding: 10px;
+        margin: 0 auto;
+        margin-bottom:0 !important;
+    }
+    h1 {
+        font-size:1em;
+    }
+    p,select,button,div {
+        font-size:.9em;
+    }
+    .nes-container {
+        padding: .5rem .5rem;
+    }
+    .is-panel {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        z-index: 10;
+        margin: 0;
+        padding: 10px;
+        border: 4px solid black;
+        font-size:.9em;
+    }
+    .is-panel span {
+        display:none;
+    }
+    .is-body {
+        margin: 0 0 80px;
+        padding: .5rem !important;
+    }
+    .is-body .nes-btn {
+        width:40%;
+    }
+    .is-beetwin select.nes-btn,
+    .is-left button.nes-btn {
+        min-width: 17%;
+    }
+}
+
+@media (min-width: 640px) {
+    #app {
+        width: 640px;
+        margin: 0 auto;
+    }
+    .is-body {
+        margin: 0 0 70px;
+    }
+    .is-panel {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        width: 640px;
+        background: white;
+        z-index: 10;
+        margin: 0 -320px;
+        padding: 10px;
+        border: 4px solid black;
+        font-size:.9em;
+    }
+    .is-panel span {
+        display:inline-block;
+    }
+}
