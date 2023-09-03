@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crypto Mining </title>
+<!--Made By Somnath Pati--->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<!--Made By Somnath Pati--->
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/icons/favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Crypto Mining Clicker">
+    <meta name="application-name" content="Crypto Mining Clicker">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!--Made By Somnath Pati -->
+    <link rel="stylesheet" href="css/index.css">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/nes.css/css/nes-core.min.css" rel="stylesheet">
+</head>
+<body>
+<!--Made By Somnath Pati--->
+<div id="app" class="nes-container with-title is-centered">
+    <div class="is-beetwin">
+        <h1>{{ lang.name }}</h1>
+        <a href="" class="nes-text is-primary"></a>
+        <a href="https://autocode.com/app/abhay557/crypto-game" class="nes-text is-primary">Autocode</a>
+    </div>
+<!--Made By Somnath Pati--->
+    <h1 class="is-centered">{{ lang.money }} - {{ reduce_num(this.coins.toFixed(5)) }}</h1>
+<!--Made By Somnath Pati--->
+    <div class="nes-container">
+        <div class="is-left">
+            <div class="nes-block">
+                {{ lang.power }} - {{ reduce_num(this.power.toFixed(5)) }}<br>
+                {{ reduce_num(this.auto_coins.toFixed(5)) }}/{{ lang.per_sec }}
+            </div>
+            <button @click="click" class="nes-btn is-success" id="click">+ 0.0001</button><br><br>
+        </div>
+    </div>
+<!--Made By Somnath Pati--->
+    <div class="is-beetwin is-panel">
+        <div><button onclick="document.getElementById('dialog-shop').showModal();" class="nes-btn is-primary">Shop</button></div>
+        <div><button onclick="document.getElementById('dialog-setting').showModal();" class="nes-btn is-primary">Setting</button></div>
+        <div></div>
+        <div>
+            <span>Amount buy</span>
+            <select class="nes-btn" v-model="amount_select">
+                <option v-for="option in amount" v-bind:value="option.value">{{ option.value }}</option>
+            </select>
+        </div>
+    </div>
+    <!--Made By Somnath Pati--->
+    <div class="nes-container is-left is-body">
+        <div v-for="item in levels">
+            <div class="nes-block">{{ item.text }}<br> [{{ item.count }}] + {{ reduce_num(item.auto_coins.toFixed(5)) }}</div>
+            <button @click="auto" v-bind:data-id="item.id" class="nes-btn"  v-bind:class="coins < item.price  * amount_select ? 'is-disabled' : ''">{{ reduce_num((item.price * amount_select).toFixed(5)) }}</button>
+        </div>
+    </div>
+
+    <!--SHOP-->
+    <dialog id="dialog-shop" class="nes-dialog is-rounded">
+        <form method="dialog">
+            <div class="nes-container is-centered with-title">
+                <p class="title">{{ lang.shop }}</p>
+                <p>{{ lang.power }} - {{ reduce_num(this.power.toFixed(5)) }}</p>
+                <p>{{ lang.money }} - {{ reduce_num(this.coins.toFixed(5)) }}</p>
+                <p>Coin price - {{ course.rub }}</p>
+                <p>Change 24 - {{ course.rub_24h_change.toFixed(5) }}</p>
+                <p>
+                    <div class="nes-field">
+                        <label for="coins">Coins</label>
+                        <input type="number" id="coins" class="nes-input" v-model="sell_coins">
+                    </div>
+
+                    <a href="javascript:void(0)" class="nes-btn is-primary" @click="sell" v-bind:class="coins <  sell_coins ? 'is-disabled' : ''">Sell off</a>              
+                </p>
+<!--Made By Somnath Pati--->
+                <p><span class="nes-text" v-bind:class="prestige_count > 1 ? 'is-success' : 'is-warning'">coef. {{ reduce_num(((power * 0.1) + prestige_count).toFixed(5)) }}</span>
+                    <a href="javascript:void(0)" class="nes-btn" @click="prestige">
+                        {{ lang.prestige }}
+                    </a>
+                </p>
+            </div>
+            <menu class="dialog-menu"><button class="nes-btn is-primary">{{ lang.ok }}</button></menu>
+        </form>
+    </dialog>
+    <!--END SHOP-->
+    
+    <!--SETTING-->
+    <dialog id="dialog-setting" class="nes-dialog is-rounded">
+        <form method="dialog">
+            <div class="nes-container is-centered with-title">
+                <p class="title">{{ lang.setting }}</p>
+                <p><a href="javascript:void(0)" @click="restart" class="nes-btn">
+                        {{ lang.clear }}
+                    </a></p>
+            </div>
+            <menu class="dialog-menu"><button class="nes-btn is-primary">{{ lang.ok }}</button></menu>
+        </form>
+    </dialog>
+    <!--END SETTING-->
+
+    <dialog class="nes-dialog is-rounded" id="dialog-offline">
+        <form method="dialog">
+            <div class="nes-container is-centered with-title">
+                <p class="title">{{ lang.message }}</p>
+                <p>While you were away, we collected the coins.</p>
+                <p>{{ coins_offline.toFixed(5) }}</p>
+            </div>
+            <menu class="dialog-menu">
+                <button class="nes-btn is-primary">{{ lang.ok }}</button>
+            </menu>
+        </form>
+    </dialog>
+
+    <dialog class="nes-dialog is-rounded" id="dialog-default">
+        <form method="dialog">
+            <div class="nes-container is-centered with-title">
+                <p class="title">{{ lang.message }}</p>
+                <p>Not enough coins</p>
+            </div>
+            <menu class="dialog-menu">
+                <button class="nes-btn is-primary">{{ lang.ok }}</button>
+            </menu>
+        </form>
+    </dialog>
+
+    <dialog class="nes-dialog is-rounded" id="dialog-admin">
+        <form method="dialog">
+            <p class="title">{{ lang.info }}</p>
+            <p>Collect Coins, There Will Be An Update Soon.</p>
+            <p>
+                <a href="https://autocode.com/abhay557" class="nes-text is-primary">Autocode</a>
+                <a href="https://github.com/Abhay557" class="nes-text is-primary">Github</a>
+            </p>
+            <menu class="dialog-menu">
+                <button class="nes-btn is-primary">{{ lang.ok }}</button>
+            </menu>
+        </form>
+    </dialog>
+</div>
+  <!--Made By Somnath Pati--->
+    <script src="js/core.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/index.js"></script>
+<!--Made By Somnath Pati--->
+</body>
+</html>
